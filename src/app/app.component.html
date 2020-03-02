@@ -1,0 +1,164 @@
+<div [mnFullpage]="options">
+    <div class="section">
+        <div class="slide slide1">
+            <div class="slide1-title">
+                <img src="../assets/img/logo-1.png" (click)="redirectToIntroduction(0)"/>
+                <span (click)="redirectToIntroduction(0)">黑搜工具箱</span>
+                <ul>
+                    <li>立即下载</li>
+                    <li (click)="redirectToIntroduction(1)">功能介绍</li>
+                    <li (click)="redirectToRegistered(1)">免费注册</li>
+                </ul>
+            </div>
+            <div class="slide1-main">
+                <div class="slide1-left wow bounceInLeft">
+                    <img src="../assets/img/computer.png">
+                </div>
+                <div class="slide1-right wow bounceInRight">
+                    <p class="p1">黑搜工具箱</p>
+                    <p class="p2">专业电商工具平台</p>
+                    <p class="p3">
+                        <span class="download">立即下载</span>
+                        <span class="registered" (click)="redirectToRegistered(1)">免费注册</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="slide slide2">
+            <div class="slide2-title">
+                <img src="../assets/img/logo-2.png" (click)="redirectToIntroduction(0)"/>
+                <span (click)="redirectToIntroduction(0)">黑搜工具箱</span>
+                <ul>
+                    <li>立即下载</li>
+                    <li [ngClass]="{'active':isIntroduction}" (click)="changeSlide(true)">功能介绍</li>
+                    <li [ngClass]="{'active':!isIntroduction}" (click)="changeSlide(false)">免费注册</li>
+                </ul>
+            </div>
+            <div class="slide2-main">
+                <div class="slide2-introduction" *ngIf="isIntroduction;else other_content">
+                    <p class="p1">全方位提升网店权重 · 一站式服务</p>
+                    <p class="p2">一站式电商运营工具，免费使用；全面分析直通车数据，迅速调整；<br />实时监控对手店铺，智能分析对手店铺；火眼金睛精准查询旺旺号信誉</p>
+                    <ul class="introduction-list">
+                        <li>
+                            <div class="introduction-list-title">
+                                <img src="../assets/img/list-1.png">
+                                <p>急速黑搜</p>
+                            </div>
+                            <p class="introduction-list-con">
+                                可以分析同行和店铺分析分析出最适的关键词，分析分析平台计划合适的。
+                            </p>
+                            <div class="introduction-list-foot">
+                                <i class="introduction-list-video"></i>
+                                <span>视频教程</span>
+                                <div class="introduction-list-open">了解更多</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="introduction-list-title">
+                                <img src="../assets/img/list-2.png">
+                                <p>黑号查询</p>
+                            </div>
+                            <p class="introduction-list-con">
+                                可以分析同行和店铺分析分析出最适的关键词，分析分析平台计划合适的。
+                            </p>
+                            <div class="introduction-list-foot">
+                                <i class="introduction-list-video"></i>
+                                <span>视频教程</span>
+                                <div class="introduction-list-open">了解更多</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="introduction-list-title">
+                                <img src="../assets/img/list-3.png">
+                                <p>淘宝流量</p>
+                            </div>
+                            <p class="introduction-list-con">
+                                可以分析同行和店铺分析分析出最适的关键词，分析分析平台计划合适的。
+                            </p>
+                            <div class="introduction-list-foot">
+                                <i class="introduction-list-video"></i>
+                                <span>视频教程</span>
+                                <div class="introduction-list-open">了解更多</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="introduction-list-title">
+                                <img src="../assets/img/list-4.png">
+                                <p>直通车诊断</p>
+                            </div>
+                            <p class="introduction-list-con">
+                                可以分析同行和店铺分析分析出最适的关键词，分析分析平台计划合适的。
+                            </p>
+                            <div class="introduction-list-foot">
+                                <i class="introduction-list-video"></i>
+                                <span>视频教程</span>
+                                <div class="introduction-list-open">了解更多</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="introduction-list-title">
+                                <img src="../assets/img/list-5.png">
+                                <p>干货分享</p>
+                            </div>
+                            <p class="introduction-list-con">
+                                可以分析同行和店铺分析分析出最适的关键词，分析分析平台计划合适的。
+                            </p>
+                            <div class="introduction-list-foot">
+                                <i class="introduction-list-video"></i>
+                                <span>视频教程</span>
+                                <div class="introduction-list-open">了解更多</div>
+                            </div>
+                        </li>
+                        <li class="last">
+                            <p class="more">·更多功能免费使用·</p>
+                            <p class="download">立即下载</p>
+                            <p class="registered" (click)="changeSlide(false)">免费注册</p>
+                        </li>
+                    </ul>
+                </div>
+                <ng-template #other_content>
+                    <div class="slide2-registered">
+                        <div class="slide2-registered-main">
+                            <p class="p1">技术革新 · 精准数据 <span> | 立即下载客户端</span><i></i></p>
+                            <p class="p2">本站采用非爬虫技术，在完全不干扰生意参谋行为的情况下，<br />简单高效的帮您转化并整理数据。避免风险的同时做到最大化方便使用。</p>
+                            <form class="slide2-registered-form">
+                                <p class="p3">欢迎注册黑搜工具箱</p>
+                                <div class="form-group">
+                                    <div class="form-group-input">
+                                        <i class="phone"></i>
+                                        <input class="input" type="text" placeholder="请输入11位注册手机号">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-group-input">
+                                        <i class="password"></i>
+                                        <input class="input" type="password" placeholder="登录密码由6-20位字母和数字组成">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-group-input form-group-input1">
+                                        <i class="code"></i>
+                                        <input class="input" type="text" placeholder="请输入图形验证码">
+                                    </div>
+                                    <div class="form-group-code"></div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-group-input form-group-input1">
+                                        <i class="phone-code"></i>
+                                        <input class="input" type="text" placeholder="请输入手机验证码">
+                                    </div>
+                                    <div class="form-group-phone-code">发送验证码</div>
+                                </div>
+                                <div class="submit">
+                                    <button>立即注册</button>
+                                    <br />
+                                    <input type="checkbox">我已仔细阅读并同意接受 <span>《黑搜开发器服务协议》</span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>
