@@ -23,7 +23,7 @@ interface formData {
     styleUrls: ["./app.component.less"]
 })
 export class AppComponent implements OnInit {
-    isIntroduction: boolean = true; // 是否是介绍页
+    isIntroduction: boolean = false; // 是否是介绍页
     key: number | string = ""; // 短信随机值
     baseUrl: string = environment.baseUrl;
     phoneCodeFlag: boolean = false; // 短信flag
