@@ -2,7 +2,7 @@
     <div class="section">
         <div class="slide slide1">
             <div class="slide1-title">
-                <img src="../assets/img/logo-1.png" (click)="redirectToIntroduction(0)"/>
+                <img src="../assets/img/logo-1.png" (click)="redirectToIntroduction(0)" />
                 <span (click)="redirectToIntroduction(0)">黑搜工具箱</span>
                 <ul>
                     <li>立即下载</li>
@@ -24,9 +24,9 @@
                 </div>
             </div>
         </div>
-        <div class="slide slide2">
+        <div class="slide slide2 active">
             <div class="slide2-title">
-                <img src="../assets/img/logo-2.png" (click)="redirectToIntroduction(0)"/>
+                <img src="../assets/img/logo-2.png" (click)="redirectToIntroduction(0)" />
                 <span (click)="redirectToIntroduction(0)">黑搜工具箱</span>
                 <ul>
                     <li>立即下载</li>
@@ -121,38 +121,55 @@
                         <div class="slide2-registered-main">
                             <p class="p1">技术革新 · 精准数据 <span> | 立即下载客户端</span><i></i></p>
                             <p class="p2">本站采用非爬虫技术，在完全不干扰生意参谋行为的情况下，<br />简单高效的帮您转化并整理数据。避免风险的同时做到最大化方便使用。</p>
-                            <form class="slide2-registered-form">
+                            <form class="slide2-registered-form" #myForm="ngForm" (ngSubmit)="onSubmit()">
                                 <p class="p3">欢迎注册黑搜工具箱</p>
                                 <div class="form-group">
                                     <div class="form-group-input">
                                         <i class="phone"></i>
-                                        <input class="input" type="text" placeholder="请输入11位注册手机号">
+                                        <input class="input" type="text" placeholder="请输入11位注册手机号" [(ngModel)]="formData.phone" name="phone" #phone="ngModel" minlength="11" required>
+                                    </div>
+                                    <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="form-group-error">
+                                        <div *ngIf="phone.errors.required">请填写手机号</div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="form-group-input">
                                         <i class="password"></i>
-                                        <input class="input" type="password" placeholder="登录密码由6-20位字母和数字组成">
+                                        <input class="input" type="password" placeholder="登录密码由6-20位字母和数字组成" [(ngModel)]="formData.password" name="password" #password="ngModel" required>
+                                    </div>
+                                    <div *ngIf="password.invalid && (password.dirty || password.touched)" class="form-group-error">
+                                        <div *ngIf="password.errors.required">请填写密码</div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="form-group-input form-group-input1">
                                         <i class="code"></i>
-                                        <input class="input" type="text" placeholder="请输入图形验证码">
+                                        <input class="input" type="text" placeholder="请输入图形验证码" [(ngModel)]="formData.verify" name="verify" #verify="ngModel" required>
                                     </div>
-                                    <div class="form-group-code"></div>
+                                    <div class="form-group-code">
+                                        <img src="{{baseUrl + '/index/getNoTokenVerify?key=' + key}}" (click)="getKey()">
+                                    </div>
+                                    <div *ngIf="verify.invalid && (verify.dirty || verify.touched)" class="form-group-error">
+                                        <div *ngIf="verify.errors.required">请填写图形验证码</div>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="form-group-input form-group-input1">
                                         <i class="phone-code"></i>
-                                        <input class="input" type="text" placeholder="请输入手机验证码">
+                                        <input class="input" type="text" placeholder="请输入手机验证码" [(ngModel)]="formData.code" name="code" #code="ngModel" required>
                                     </div>
-                                    <div class="form-group-phone-code">发送验证码</div>
+                                    <div class="form-group-phone-code form-group-phone-code-active" *ngIf="phoneCodeFlag;else other_content">{{countdown + '秒后重试'}}</div>
+                                    <ng-template #other_content>
+                                        <div class="form-group-phone-code" (click)="getPhoneCode()">发送验证码</div>
+                                    </ng-template>
+                                    <div *ngIf="code.invalid && (code.dirty || code.touched)" class="form-group-error">
+                                        <div *ngIf="code.errors.required">请填写验证码</div>
+                                    </div>
                                 </div>
                                 <div class="submit">
                                     <button>立即注册</button>
                                     <br />
-                                    <input type="checkbox">我已仔细阅读并同意接受 <span>《黑搜开发器服务协议》</span>
+                                    <input type="checkbox" [(ngModel)]="protocolFlag" name="protocol"/>我已仔细阅读并同意接受 <span>《黑搜开发器服务协议》</span>
                                 </div>
                             </form>
                         </div>
