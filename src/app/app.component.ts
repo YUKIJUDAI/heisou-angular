@@ -1,10 +1,11 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { ActivatedRoute, Params } from "@angular/router";
 import { MnFullpageService, MnFullpageOptions } from "ngx-fullpage";
 import { NgwWowService } from "ngx-wow";
 import { interval } from "rxjs";
 import { take } from "rxjs/operators";
-import { ElMessageService } from 'element-angular';
+import { ElMessageService } from "element-angular";
 
 var qs = require("qs");
 
@@ -23,7 +24,8 @@ interface formData {
     styleUrls: ["./app.component.less"]
 })
 export class AppComponent implements OnInit {
-    isIntroduction: boolean = false; // 是否是介绍页
+    queryParams: Params; // 参数
+    isIntroduction: boolean = true; // 是否是介绍页
     key: number | string = ""; // 短信随机值
     baseUrl: string = environment.baseUrl;
     phoneCodeFlag: boolean = false; // 短信flag
@@ -38,9 +40,13 @@ export class AppComponent implements OnInit {
         code: ""
     };
 
-    httpOptions = {  // http head
-        headers: new HttpHeaders({ "Content-Type": "application/x-www-form-urlencoded" })
-    }
+    httpOptions = {
+        // http head
+        headers: new HttpHeaders({
+            "Content-Type": "application/x-www-form-urlencoded",
+            proxyid: environment.proxyid.toString()
+        })
+    };
 
     @Input() public options: MnFullpageOptions = MnFullpageOptions.create({
         controlArrows: false,
@@ -49,6 +55,7 @@ export class AppComponent implements OnInit {
 
     constructor(
         private http: HttpClient,
+        private activatedRoute: ActivatedRoute,
         private fullpageService: MnFullpageService,
         private wowService: NgwWowService,
         private message: ElMessageService
@@ -57,6 +64,9 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.activatedRoute.queryParams.subscribe(params => {
+            this.queryParams = params;
+        });
         this.getKey();
     }
 
@@ -79,29 +89,47 @@ export class AppComponent implements OnInit {
 
     // 获取随机key
     getKey(): void {
-        this.key = new Date().getTime() + "" + (Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000);
+        this.key =
+            new Date().getTime() +
+            "" +
+            (Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000);
     }
 
     // 获取短信
     getPhoneCode(): void {
-        const body = { type: 2, phone: this.formData.phone, verify_key: this.key, verify: this.formData.verify };
+        const body = {
+            type: 2,
+            phone: this.formData.phone,
+            verify_key: this.key,
+            verify: this.formData.verify
+        };
 
-        this.http.post(this.baseUrl + "/index/sendSms", qs.stringify(body), this.httpOptions).subscribe((res:any) => {
-            if (0 === res.code) {
-                this.message.success(res.msg);
-                this.phoneCodeFlag = true;
-                interval(1000).pipe(take(60)).subscribe((res) => {
-                    let a = (res + 1);
-                    a === 60 ? (this.phoneCodeFlag = false) : this.countdown = (60 - a);
-                });
-            } else {
-                this.message.error(res.msg);
-            }
-        });
+        this.http
+            .post(
+                this.baseUrl + "/index/sendSms",
+                qs.stringify(body),
+                this.httpOptions
+            )
+            .subscribe((res: any) => {
+                if (0 === res.code) {
+                    this.message.success(res.msg);
+                    this.phoneCodeFlag = true;
+                    interval(1000)
+                        .pipe(take(60))
+                        .subscribe(res => {
+                            let a = res + 1;
+                            a === 60
+                                ? (this.phoneCodeFlag = false)
+                                : (this.countdown = 60 - a);
+                        });
+                } else {
+                    this.message.error(res.msg);
+                }
+            });
     }
 
     //提交注册
-    onSubmit():void{
+    onSubmit(): void {
         if (this.submitFlag) return;
         // 勾选协议
         if (!this.protocolFlag) {
@@ -110,14 +138,20 @@ export class AppComponent implements OnInit {
         }
         this.submitFlag = true;
 
-        this.http.post(this.baseUrl + "/index/register", qs.stringify(this.formData), this.httpOptions).subscribe((res:any) => {
-            this.submitFlag = false;
-            if (0 === res.code) {
-                this.message.success(res.msg);
-            } else {
-                this.getKey();
-                this.message.error(res.msg);
-            }
-        });
-    } 
+        this.http
+            .post(
+                this.baseUrl + "/index/register",
+                qs.stringify(Object.assign(this.formData), this.queryParams),
+                this.httpOptions
+            )
+            .subscribe((res: any) => {
+                this.submitFlag = false;
+                if (0 === res.code) {
+                    this.message.success(res.msg);
+                } else {
+                    this.getKey();
+                    this.message.error(res.msg);
+                }
+            });
+    }
 }

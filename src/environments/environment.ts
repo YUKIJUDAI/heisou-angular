@@ -4,7 +4,8 @@
 
 export const environment = {
     production: false,
-    baseUrl: "http://bsearch.lethink.net"
+    baseUrl: "http://bsearch.lethink.net",
+    proxyid: 1
 };
 
 /*
