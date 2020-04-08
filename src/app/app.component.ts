@@ -98,7 +98,7 @@ export class AppComponent implements OnInit {
     // 获取短信
     getPhoneCode(): void {
         const body = {
-            type: 2,
+            type: 1,
             phone: this.formData.phone,
             verify_key: this.key,
             verify: this.formData.verify
@@ -141,7 +141,7 @@ export class AppComponent implements OnInit {
         this.http
             .post(
                 this.baseUrl + "/index/register",
-                qs.stringify(Object.assign(this.formData), this.queryParams),
+                qs.stringify(Object.assign(this.formData, this.queryParams)),
                 this.httpOptions
             )
             .subscribe((res: any) => {
