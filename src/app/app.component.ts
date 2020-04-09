@@ -16,12 +16,12 @@ interface formData {
     password: string | number; // 密码
     verify: string | number; //图形验证码
     code: string | number; //短信验证码
+    invite_code: string; // 邀请码
 }
 
 @Component({
-    selector: "app-root",
     templateUrl: "./app.component.html",
-    styleUrls: ["./app.component.less"]
+    styleUrls: ["./app.component.less"],
 })
 export class AppComponent implements OnInit {
     queryParams: Params; // 参数
@@ -38,20 +38,21 @@ export class AppComponent implements OnInit {
         phone: "",
         password: "",
         verify: "",
-        code: ""
+        code: "",
+        invite_code: "",
     };
 
     httpOptions = {
         // http head
         headers: new HttpHeaders({
             "Content-Type": "application/x-www-form-urlencoded",
-            proxyid: environment.proxyid.toString()
-        })
+            proxyid: environment.proxyid.toString(),
+        }),
     };
 
     @Input() public options: MnFullpageOptions = MnFullpageOptions.create({
         controlArrows: false,
-        css3: true
+        css3: true,
     });
 
     constructor(
@@ -65,8 +66,13 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.activatedRoute.queryParams.subscribe(params => {
-            this.queryParams = params;
+        this.activatedRoute.queryParams.subscribe((params) => {
+            this.queryParams =
+                params || JSON.parse(localStorage.getItem("params"));
+            this.queryParams &&
+                this.queryParams.invite_code &&
+                (this.formData.invite_code = this.queryParams.invite_code);
+            localStorage.setItem("params", JSON.stringify(params));
         });
         this.getKey();
         this.getAppVersion();
@@ -99,8 +105,9 @@ export class AppComponent implements OnInit {
 
     // 获取下载链接
     getAppVersion(): void {
-        this.http.post(this.baseUrl + "/index/getAppVersion",this.httpOptions)
-            .subscribe((res:any)=>{
+        this.http
+            .post(this.baseUrl + "/index/getAppVersion", this.httpOptions)
+            .subscribe((res: any) => {
                 0 === res.code && (this.downloadUrl = res.data);
             });
     }
@@ -111,19 +118,26 @@ export class AppComponent implements OnInit {
             type: 1,
             phone: this.formData.phone,
             verify_key: this.key,
-            verify: this.formData.verify
+            verify: this.formData.verify,
         };
 
-        this.http.post(this.baseUrl + "/index/sendSms", qs.stringify(body), this.httpOptions)
+        this.http
+            .post(
+                this.baseUrl + "/index/sendSms",
+                qs.stringify(body),
+                this.httpOptions
+            )
             .subscribe((res: any) => {
                 if (0 === res.code) {
                     this.message.success(res.msg);
                     this.phoneCodeFlag = true;
                     interval(1000)
                         .pipe(take(60))
-                        .subscribe(res => {
+                        .subscribe((res) => {
                             let a = res + 1;
-                            a === 60 ? (this.phoneCodeFlag = false) : (this.countdown = 60 - a);
+                            a === 60
+                                ? (this.phoneCodeFlag = false)
+                                : (this.countdown = 60 - a);
                         });
                 } else {
                     this.message.error(res.msg);

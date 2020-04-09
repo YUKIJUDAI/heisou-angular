@@ -5,7 +5,7 @@
                 <img src="../assets/img/logo-1.png" (click)="redirectToIntroduction(0)" />
                 <span (click)="redirectToIntroduction(0)">火星情报</span>
                 <ul>
-                    <li ><a [href]="downloadUrl" target="_blank">立即下载</a></li>
+                    <li><a [href]="downloadUrl" target="_blank">立即下载</a></li>
                     <li (click)="redirectToIntroduction(1)">功能介绍</li>
                     <li (click)="redirectToRegistered(1)">免费注册</li>
                 </ul>
@@ -142,6 +142,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <div class="form-group-input">
+                                        <i class="invite_code"></i>
+                                        <input class="input" type="text" placeholder="请输入邀请码" [(ngModel)]="formData.invite_code" name="invite_code">
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <div class="form-group-input form-group-input1">
                                         <i class="code"></i>
                                         <input class="input" type="text" placeholder="请输入图形验证码" [(ngModel)]="formData.verify" name="verify" #verify="ngModel" required>
@@ -169,7 +175,7 @@
                                 <div class="submit">
                                     <button>立即注册</button>
                                     <br />
-                                    <input type="checkbox" [(ngModel)]="protocolFlag" name="protocol"/> 我已阅读并同意接受<span>《服务协议》</span>
+                                    <input type="checkbox" [(ngModel)]="protocolFlag" name="protocol" /> 我已阅读并同意接受<span routerLink="/protocol">《服务协议》</span>
                                 </div>
                             </form>
                         </div>
