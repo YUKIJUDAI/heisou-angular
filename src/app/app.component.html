@@ -5,7 +5,7 @@
                 <img src="../assets/img/logo-1.png" (click)="redirectToIntroduction(0)" />
                 <span (click)="redirectToIntroduction(0)">火星情报</span>
                 <ul>
-                    <li>立即下载</li>
+                    <li ><a [href]="downloadUrl" target="_blank">立即下载</a></li>
                     <li (click)="redirectToIntroduction(1)">功能介绍</li>
                     <li (click)="redirectToRegistered(1)">免费注册</li>
                 </ul>
@@ -18,7 +18,7 @@
                     <p class="p1">火星情报</p>
                     <p class="p2">专业电商工具平台</p>
                     <p class="p3">
-                        <span class="download">立即下载</span>
+                        <span class="download"><a [href]="downloadUrl" target="_blank">立即下载</a></span>
                         <span class="registered" (click)="redirectToRegistered(1)">免费注册</span>
                     </p>
                 </div>
@@ -29,7 +29,7 @@
                 <img src="../assets/img/logo-2.png" (click)="redirectToIntroduction(0)" />
                 <span (click)="redirectToIntroduction(0)">火星情报</span>
                 <ul>
-                    <li>立即下载</li>
+                    <li><a [href]="downloadUrl" target="_blank">立即下载</a></li>
                     <li [ngClass]="{'active':isIntroduction}" (click)="changeSlide(true)">功能介绍</li>
                     <li [ngClass]="{'active':!isIntroduction}" (click)="changeSlide(false)">免费注册</li>
                 </ul>
@@ -111,7 +111,7 @@
                         </li>
                         <li class="last">
                             <p class="more">·更多功能免费使用·</p>
-                            <p class="download">立即下载</p>
+                            <p class="download"><a [href]="downloadUrl" target="_blank">立即下载</a></p>
                             <p class="registered" (click)="changeSlide(false)">免费注册</p>
                         </li>
                     </ul>
@@ -119,10 +119,10 @@
                 <ng-template #other_content>
                     <div class="slide2-registered">
                         <div class="slide2-registered-main">
-                            <p class="p1">技术革新 · 精准数据 <span> | 立即下载客户端</span><i></i></p>
+                            <p class="p1">技术革新 · 精准数据 <span><a [href]="downloadUrl" target="_blank"> | 立即下载客户端</a>></span><i></i></p>
                             <p class="p2">本站采用非爬虫技术，在完全不干扰生意参谋行为的情况下，<br />简单高效的帮您转化并整理数据。避免风险的同时做到最大化方便使用。</p>
                             <form class="slide2-registered-form" #myForm="ngForm" (ngSubmit)="onSubmit()">
-                                <p class="p3">欢迎注册火星情报</p>
+                                <p class="p3">免费注册</p>
                                 <div class="form-group">
                                     <div class="form-group-input">
                                         <i class="phone"></i>
@@ -169,7 +169,7 @@
                                 <div class="submit">
                                     <button>立即注册</button>
                                     <br />
-                                    <input type="checkbox" [(ngModel)]="protocolFlag" name="protocol"/>我已仔细阅读并同意接受 <span>《黑搜开发器服务协议》</span>
+                                    <input type="checkbox" [(ngModel)]="protocolFlag" name="protocol"/> 我已阅读并同意接受<span>《服务协议》</span>
                                 </div>
                             </form>
                         </div>

@@ -25,6 +25,7 @@ interface formData {
 })
 export class AppComponent implements OnInit {
     queryParams: Params; // 参数
+    downloadUrl: String; // 下载路径
     isIntroduction: boolean = true; // 是否是介绍页
     key: number | string = ""; // 短信随机值
     baseUrl: string = environment.baseUrl;
@@ -68,6 +69,7 @@ export class AppComponent implements OnInit {
             this.queryParams = params;
         });
         this.getKey();
+        this.getAppVersion();
     }
 
     // 跳转到介绍页
@@ -95,6 +97,14 @@ export class AppComponent implements OnInit {
             (Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000);
     }
 
+    // 获取下载链接
+    getAppVersion(): void {
+        this.http.post(this.baseUrl + "/index/getAppVersion",this.httpOptions)
+            .subscribe((res:any)=>{
+                0 === res.code && (this.downloadUrl = res.data);
+            });
+    }
+
     // 获取短信
     getPhoneCode(): void {
         const body = {
@@ -104,12 +114,7 @@ export class AppComponent implements OnInit {
             verify: this.formData.verify
         };
 
-        this.http
-            .post(
-                this.baseUrl + "/index/sendSms",
-                qs.stringify(body),
-                this.httpOptions
-            )
+        this.http.post(this.baseUrl + "/index/sendSms", qs.stringify(body), this.httpOptions)
             .subscribe((res: any) => {
                 if (0 === res.code) {
                     this.message.success(res.msg);
@@ -118,9 +123,7 @@ export class AppComponent implements OnInit {
                         .pipe(take(60))
                         .subscribe(res => {
                             let a = res + 1;
-                            a === 60
-                                ? (this.phoneCodeFlag = false)
-                                : (this.countdown = 60 - a);
+                            a === 60 ? (this.phoneCodeFlag = false) : (this.countdown = 60 - a);
                         });
                 } else {
                     this.message.error(res.msg);
