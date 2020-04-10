@@ -5,7 +5,7 @@
                 <img src="../assets/img/logo-1.png" (click)="redirectToIntroduction(0)" />
                 <span (click)="redirectToIntroduction(0)">火星情报</span>
                 <ul>
-                    <li><a [href]="downloadUrl" target="_blank">立即下载</a></li>
+                    <li (click)="redirectToIntroduction(0)">官网首页</li>
                     <li (click)="redirectToIntroduction(1)">功能介绍</li>
                     <li (click)="redirectToRegistered(1)">免费注册</li>
                 </ul>
@@ -29,7 +29,7 @@
                 <img src="../assets/img/logo-2.png" (click)="redirectToIntroduction(0)" />
                 <span (click)="redirectToIntroduction(0)">火星情报</span>
                 <ul>
-                    <li><a [href]="downloadUrl" target="_blank">立即下载</a></li>
+                    <li (click)="redirectToIntroduction(0)">官网首页</li>
                     <li [ngClass]="{'active':isIntroduction}" (click)="changeSlide(true)">功能介绍</li>
                     <li [ngClass]="{'active':!isIntroduction}" (click)="changeSlide(false)">免费注册</li>
                 </ul>
@@ -45,7 +45,7 @@
                                 <p>急速黑搜</p>
                             </div>
                             <p class="introduction-list-con">
-                                可以分析同行和店铺分析分析出最适的关键词，分析分析平台计划合适的。
+                                分析竞品转化率、收藏加购率、UV价值合理利用竞品引流词、成交词做刷单计划
                             </p>
                             <div class="introduction-list-foot">
                                 <i class="introduction-list-video"></i>
@@ -59,7 +59,7 @@
                                 <p>黑号查询</p>
                             </div>
                             <p class="introduction-list-con">
-                                可以分析同行和店铺分析分析出最适的关键词，分析分析平台计划合适的。
+                                千万级别黑号数据库冠绝全网，一秒查看骗子、打假、差评提前发现，看周平均看僵尸号
                             </p>
                             <div class="introduction-list-foot">
                                 <i class="introduction-list-video"></i>
@@ -73,7 +73,7 @@
                                 <p>淘宝流量</p>
                             </div>
                             <p class="introduction-list-con">
-                                可以分析同行和店铺分析分析出最适的关键词，分析分析平台计划合适的。
+                                宝贝收藏加购，真实人工标签化流量平台真实人工搜索,访客遍布全国,深度浏览货比三家支持提升PC端、手淘无线APP流量
                             </p>
                             <div class="introduction-list-foot">
                                 <i class="introduction-list-video"></i>
@@ -87,7 +87,7 @@
                                 <p>直通车诊断</p>
                             </div>
                             <p class="introduction-list-con">
-                                可以分析同行和店铺分析分析出最适的关键词，分析分析平台计划合适的。
+                                专业导师车手一站式服务，经验丰富为卖家量身定制、实现宝贝的精准推广
                             </p>
                             <div class="introduction-list-foot">
                                 <i class="introduction-list-video"></i>
@@ -101,7 +101,7 @@
                                 <p>干货分享</p>
                             </div>
                             <p class="introduction-list-con">
-                                可以分析同行和店铺分析分析出最适的关键词，分析分析平台计划合适的。
+                                为您提供免费电子商务培训视频，图文视频结合更汇集有其它数十家电商学院视频教程指导
                             </p>
                             <div class="introduction-list-foot">
                                 <i class="introduction-list-video"></i>
