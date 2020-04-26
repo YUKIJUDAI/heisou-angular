@@ -7,13 +7,15 @@ import { MnFullpageModule } from "ngx-fullpage";
 import { NgwWowModule } from "ngx-wow";
 import { ElModule } from "element-angular";
 
-import { AppRoutingModule } from "./app-routing.module";
-import { MainComponent } from "./main.component";
-import { AppComponent } from "./app.component";
-import { ProtocolComponent } from "./protocol.component";
+import { AppRoutingModule } from "@app/routers/app-routing.module";
+import { MainComponent } from "@app/main.component";
+import { AppComponent } from "@app/home/home.component";
+import { ProtocolComponent } from "@app/protocol/protocol.component";
+import { IntroductionComponent } from './introduction/introduction.component';
+import { RegisteredComponent } from './registered/registered.component';
 
 @NgModule({
-    declarations: [MainComponent, AppComponent, ProtocolComponent],
+    declarations: [MainComponent, AppComponent, ProtocolComponent, IntroductionComponent, RegisteredComponent],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,

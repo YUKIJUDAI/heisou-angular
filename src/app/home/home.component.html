@@ -1,0 +1,43 @@
+<div [mnFullpage]="options">
+    <div class="section">
+        <div class="slide slide1">
+            <div class="slide1-title">
+                <img src="../assets/img/logo-1.png" (click)="redirectToIntroduction(0)" />
+                <span (click)="redirectToIntroduction(0)">火星情报</span>
+                <ul>
+                    <li (click)="redirectToIntroduction(0)">官网首页</li>
+                    <li (click)="redirectToIntroduction(1)">功能介绍</li>
+                    <li (click)="redirectToRegistered(1)">免费注册</li>
+                </ul>
+            </div>
+            <div class="slide1-main">
+                <div class="slide1-left wow bounceInLeft">
+                    <img src="../assets/img/computer.png">
+                </div>
+                <div class="slide1-right wow bounceInRight">
+                    <p class="p1">火星情报</p>
+                    <p class="p2">专业电商工具平台</p>
+                    <p class="p3">
+                        <span class="download"><a [href]="downloadUrl" target="_blank">立即下载</a></span>
+                        <span class="registered" (click)="redirectToRegistered(1)">免费注册</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="slide slide2">
+            <div class="slide2-title">
+                <img src="../assets/img/logo-2.png" (click)="redirectToIntroduction(0)" />
+                <span (click)="redirectToIntroduction(0)">火星情报</span>
+                <ul>
+                    <li (click)="redirectToIntroduction(0)">官网首页</li>
+                    <li routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">功能介绍</li>
+                    <li routerLink="/registered" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">免费注册</li>
+                </ul>
+            </div>
+            <div class="slide2-main">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+        <div class="copyright">Copyright © 2017杭州拉趣科技有限公司 浙ICP备17003883号-2 版权所有</div>
+    </div>
+</div>

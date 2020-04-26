@@ -1,15 +1,12 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { ActivatedRoute, Params } from "@angular/router";
-import { MnFullpageService, MnFullpageOptions } from "ngx-fullpage";
-import { NgwWowService } from "ngx-wow";
+import { Params, ActivatedRoute } from "@angular/router";
+import { environment } from "@env/environment";
+import { ElMessageService } from "element-angular";
 import { interval } from "rxjs";
 import { take } from "rxjs/operators";
-import { ElMessageService } from "element-angular";
 
 var qs = require("qs");
-
-import { environment } from "../environments/environment";
 
 interface formData {
     phone: string | number; // 手机号
@@ -20,15 +17,15 @@ interface formData {
 }
 
 @Component({
-    templateUrl: "./app.component.html",
-    styleUrls: ["./app.component.less"],
+    selector: "app-registered",
+    templateUrl: "./registered.component.html",
+    styleUrls: ["./registered.component.less"],
 })
-export class AppComponent implements OnInit {
+export class RegisteredComponent implements OnInit {
     queryParams: Params; // 参数
-    downloadUrl: String; // 下载路径
-    isIntroduction: boolean = true; // 是否是介绍页
     key: number | string = ""; // 短信随机值
     baseUrl: string = environment.baseUrl;
+    downloadUrl: String; // 下载路径
     phoneCodeFlag: boolean = false; // 短信flag
     submitFlag: boolean = false; // 注册提交flag
     protocolFlag: boolean = true; // 协议勾选flag
@@ -50,22 +47,13 @@ export class AppComponent implements OnInit {
         }),
     };
 
-    @Input() public options: MnFullpageOptions = MnFullpageOptions.create({
-        controlArrows: false,
-        css3: true,
-    });
-
     constructor(
         private http: HttpClient,
         private activatedRoute: ActivatedRoute,
-        private fullpageService: MnFullpageService,
-        private wowService: NgwWowService,
         private message: ElMessageService
-    ) {
-        this.wowService.init();
-    }
+    ) {}
 
-    ngOnInit(): void {
+    ngOnInit() {
         this.activatedRoute.queryParams.subscribe((params) => {
             this.queryParams =
                 params || JSON.parse(localStorage.getItem("params"));
@@ -76,23 +64,6 @@ export class AppComponent implements OnInit {
         });
         this.getKey();
         this.getAppVersion();
-    }
-
-    // 跳转到介绍页
-    redirectToIntroduction(index: number): void {
-        this.fullpageService.moveTo(1, index);
-        0 === index && this.wowService.init();
-    }
-
-    // 跳转到注册页
-    redirectToRegistered(index: number): void {
-        this.redirectToIntroduction(1);
-        this.changeSlide(false);
-    }
-
-    // 切换介绍页和注册页
-    changeSlide(b: boolean): void {
-        this.isIntroduction = b;
     }
 
     // 获取随机key
