@@ -18,7 +18,7 @@ const routes: Routes = [
                 component: AppComponent,
                 children: [
                     {
-                        path: "",
+                        path: "introduction",
                         component: IntroductionComponent,
                     },
                     {

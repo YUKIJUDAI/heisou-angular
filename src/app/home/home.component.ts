@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, AfterViewInit } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { MnFullpageService, MnFullpageOptions } from "ngx-fullpage";
@@ -10,7 +10,7 @@ import { environment } from "@env/environment";
     templateUrl: "./home.component.html",
     styleUrls: ["./home.component.less"],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
     downloadUrl: String; // 下载路径
     baseUrl: string = environment.baseUrl;
 
@@ -40,15 +40,26 @@ export class AppComponent implements OnInit {
         this.getAppVersion();
     }
 
+    ngAfterViewInit(): void {
+        this.router.url !== "/" && this.fullpageService.moveTo(1, 1);
+    }
+
+    // 跳转到首页
+    redirectToHome(): void {
+        this.fullpageService.moveTo(1, 0);
+        this.wowService.init();
+        this.router.navigate([""]);
+    }
+
     // 跳转到介绍页
     redirectToIntroduction(index: number): void {
-        this.fullpageService.moveTo(1, index);
-        0 === index && this.wowService.init();
+        this.fullpageService.moveTo(1, 1);
+        this.router.navigate(["/introduction"]);
     }
 
     // 跳转到注册页
     redirectToRegistered(index: number): void {
-        this.redirectToIntroduction(1);
+        this.fullpageService.moveTo(1, 1);
         this.router.navigate(["/registered"]);
     }
 
