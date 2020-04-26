@@ -13,9 +13,10 @@ import { AppComponent } from "@app/home/home.component";
 import { ProtocolComponent } from "@app/protocol/protocol.component";
 import { IntroductionComponent } from './introduction/introduction.component';
 import { RegisteredComponent } from './registered/registered.component';
+import { HelpCenterComponent } from './help-center/help-center.component';
 
 @NgModule({
-    declarations: [MainComponent, AppComponent, ProtocolComponent, IntroductionComponent, RegisteredComponent],
+    declarations: [MainComponent, AppComponent, ProtocolComponent, IntroductionComponent, RegisteredComponent, HelpCenterComponent],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,

@@ -6,6 +6,7 @@ import { AppComponent } from "@app/home/home.component";
 import { ProtocolComponent } from "@app/protocol/protocol.component";
 import { IntroductionComponent } from "@app/introduction/introduction.component";
 import { RegisteredComponent } from "@app/registered/registered.component";
+import { HelpCenterComponent } from "@app/help-center/help-center.component";
 
 const routes: Routes = [
     {
@@ -23,6 +24,10 @@ const routes: Routes = [
                     {
                         path: "registered",
                         component: RegisteredComponent,
+                    },
+                    {
+                        path: "helpCenter",
+                        component: HelpCenterComponent,
                     },
                 ],
             },
