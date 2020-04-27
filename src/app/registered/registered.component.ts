@@ -6,8 +6,6 @@ import { ElMessageService } from "element-angular";
 import { interval } from "rxjs";
 import { take } from "rxjs/operators";
 
-var qs = require("qs");
-
 interface formData {
     phone: string | number; // 手机号
     password: string | number; // 密码
@@ -39,14 +37,6 @@ export class RegisteredComponent implements OnInit {
         invite_code: "",
     };
 
-    httpOptions = {
-        // http head
-        headers: new HttpHeaders({
-            "Content-Type": "application/x-www-form-urlencoded",
-            proxyid: environment.proxyid.toString(),
-        }),
-    };
-
     constructor(
         private http: HttpClient,
         private activatedRoute: ActivatedRoute,
@@ -76,11 +66,9 @@ export class RegisteredComponent implements OnInit {
 
     // 获取下载链接
     getAppVersion(): void {
-        this.http
-            .post(this.baseUrl + "/index/getAppVersion", this.httpOptions)
-            .subscribe((res: any) => {
-                0 === res.code && (this.downloadUrl = res.data);
-            });
+        this.http.post("/index/getAppVersion", null).subscribe((res: any) => {
+            0 === res.code && (this.downloadUrl = res.data);
+        });
     }
 
     // 获取短信
@@ -92,28 +80,22 @@ export class RegisteredComponent implements OnInit {
             verify: this.formData.verify,
         };
 
-        this.http
-            .post(
-                this.baseUrl + "/index/sendSms",
-                qs.stringify(body),
-                this.httpOptions
-            )
-            .subscribe((res: any) => {
-                if (0 === res.code) {
-                    this.message.success(res.msg);
-                    this.phoneCodeFlag = true;
-                    interval(1000)
-                        .pipe(take(60))
-                        .subscribe((res) => {
-                            let a = res + 1;
-                            a === 60
-                                ? (this.phoneCodeFlag = false)
-                                : (this.countdown = 60 - a);
-                        });
-                } else {
-                    this.message.error(res.msg);
-                }
-            });
+        this.http.post("/index/sendSms", body).subscribe((res: any) => {
+            if (0 === res.code) {
+                this.message.success(res.msg);
+                this.phoneCodeFlag = true;
+                interval(1000)
+                    .pipe(take(60))
+                    .subscribe((res) => {
+                        let a = res + 1;
+                        a === 60
+                            ? (this.phoneCodeFlag = false)
+                            : (this.countdown = 60 - a);
+                    });
+            } else {
+                this.message.error(res.msg);
+            }
+        });
     }
 
     //提交注册
@@ -128,9 +110,8 @@ export class RegisteredComponent implements OnInit {
 
         this.http
             .post(
-                this.baseUrl + "/index/register",
-                qs.stringify(Object.assign(this.formData, this.queryParams)),
-                this.httpOptions
+                "/index/register",
+                Object.assign(this.formData, this.queryParams)
             )
             .subscribe((res: any) => {
                 this.submitFlag = false;
