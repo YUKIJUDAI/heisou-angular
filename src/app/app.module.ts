@@ -8,6 +8,7 @@ import { NgwWowModule } from "ngx-wow";
 import { ElModule } from "element-angular";
 
 import { Http } from "@app/service/http-service";
+import { DataService } from "@app/service/data-service";
 
 import { AppRoutingModule } from "@app/routers/app-routing.module";
 import { MainComponent } from "@app/main.component";
@@ -36,7 +37,10 @@ import { HelpCenterComponent } from "./help-center/help-center.component";
         ElModule.forRoot(),
         AppRoutingModule,
     ],
-    providers: [{ provide: HTTP_INTERCEPTORS, useClass: Http, multi: true }],
+    providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: Http, multi: true },
+        DataService,
+    ],
     bootstrap: [MainComponent],
 })
 export class AppModule {}

@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Params, ActivatedRoute } from "@angular/router";
 import { environment } from "@env/environment";
 import { ElMessageService } from "element-angular";

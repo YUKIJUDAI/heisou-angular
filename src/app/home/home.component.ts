@@ -4,6 +4,8 @@ import { Router } from "@angular/router";
 import { MnFullpageService, MnFullpageOptions } from "ngx-fullpage";
 import { NgwWowService } from "ngx-wow";
 
+import { DataService } from "@app/service/data-service";
+
 @Component({
     templateUrl: "./home.component.html",
     styleUrls: ["./home.component.less"],
@@ -20,7 +22,8 @@ export class AppComponent implements OnInit, AfterViewInit {
         private http: HttpClient,
         private router: Router,
         private fullpageService: MnFullpageService,
-        private wowService: NgwWowService
+        private wowService: NgwWowService,
+        private dataService: DataService
     ) {
         this.wowService.init();
     }
@@ -56,6 +59,13 @@ export class AppComponent implements OnInit, AfterViewInit {
     getAppVersion(): void {
         this.http.post("/index/getAppVersion", null).subscribe((res: any) => {
             0 === res.code && (this.downloadUrl = res.data);
+        });
+    }
+
+    // 获取站点信息
+    getServiceCode(): void {
+        this.http.post("/index/getAppVersion", null).subscribe((res: any) => {
+            0 === res.code && this.dataService.set(res.data);
         });
     }
 }
