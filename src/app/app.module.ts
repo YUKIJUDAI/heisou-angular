@@ -8,7 +8,6 @@ import { NgwWowModule } from "ngx-wow";
 import { ElModule } from "element-angular";
 
 import { Http } from "@app/service/http-service";
-import { DataService } from "@app/service/data-service";
 
 import { AppRoutingModule } from "@app/routers/app-routing.module";
 import { MainComponent } from "@app/main.component";
@@ -17,6 +16,8 @@ import { ProtocolComponent } from "@app/protocol/protocol.component";
 import { IntroductionComponent } from "./introduction/introduction.component";
 import { RegisteredComponent } from "./registered/registered.component";
 import { HelpCenterComponent } from "./help-center/help-center.component";
+import { StoreModule } from "@ngrx/store";
+import { reducers } from "./reducers";
 
 @NgModule({
     declarations: [
@@ -36,11 +37,14 @@ import { HelpCenterComponent } from "./help-center/help-center.component";
         MnFullpageModule.forRoot(),
         ElModule.forRoot(),
         AppRoutingModule,
+        StoreModule.forRoot(reducers, {
+            runtimeChecks: {
+                strictStateImmutability: true,
+                strictActionImmutability: true,
+            },
+        }),
     ],
-    providers: [
-        { provide: HTTP_INTERCEPTORS, useClass: Http, multi: true },
-        DataService,
-    ],
+    providers: [{ provide: HTTP_INTERCEPTORS, useClass: Http, multi: true }],
     bootstrap: [MainComponent],
 })
 export class AppModule {}

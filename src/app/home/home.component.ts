@@ -1,10 +1,11 @@
 import { Component, Input, OnInit, AfterViewInit } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
+import { Store } from "@ngrx/store";
 import { MnFullpageService, MnFullpageOptions } from "ngx-fullpage";
 import { NgwWowService } from "ngx-wow";
 
-import { DataService } from "@app/service/data-service";
+import { getServiceCode } from "@app/reducers/index";
 
 @Component({
     templateUrl: "./home.component.html",
@@ -12,6 +13,7 @@ import { DataService } from "@app/service/data-service";
 })
 export class AppComponent implements OnInit, AfterViewInit {
     downloadUrl: String; // 下载路径
+    serviceInfo: any;
 
     @Input() public options: MnFullpageOptions = MnFullpageOptions.create({
         controlArrows: false,
@@ -23,13 +25,15 @@ export class AppComponent implements OnInit, AfterViewInit {
         private router: Router,
         private fullpageService: MnFullpageService,
         private wowService: NgwWowService,
-        private dataService: DataService
+        private store: Store<any>
     ) {
         this.wowService.init();
+        this.serviceInfo = store.select(getServiceCode);
     }
 
     ngOnInit(): void {
         this.getAppVersion();
+        this.getServiceCode();
     }
 
     ngAfterViewInit(): void {
@@ -65,7 +69,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     // 获取站点信息
     getServiceCode(): void {
         this.http.post("/index/getAppVersion", null).subscribe((res: any) => {
-            0 === res.code && this.dataService.set(res.data);
+            0 === res.code && this.store.dispatch({"resetServiceCode":res.data});
         });
     }
 }

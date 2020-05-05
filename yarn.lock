@@ -205,6 +205,11 @@
   dependencies:
     tslib "^1.9.0"
 
+"@ngrx/store@8.6.0":
+  version "8.6.0"
+  resolved "https://registry.npm.taobao.org/@ngrx/store/download/@ngrx/store-8.6.0.tgz#8540c5bd40b33fc2f443e7e86f47c0d801b8f413"
+  integrity sha1-hUDFvUCzP8L0Q+fob0fA2AG49BM=
+
 "@ngtools/webpack@8.0.6":
   version "8.0.6"
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-8.0.6.tgz#c6b5416710913b24b741a17c8f255e54f42c9abf"
