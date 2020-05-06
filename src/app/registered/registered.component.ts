@@ -30,7 +30,7 @@ export class RegisteredComponent implements OnInit {
     phoneCodeFlag: boolean = false; // 短信flag
     submitFlag: boolean = false; // 注册提交flag
     protocolFlag: boolean = true; // 协议勾选flag
-    customerServiceFlag: boolean = true; // 新人礼包flag
+    customerServiceFlag: boolean = false; // 新人礼包flag
     countdown: number = 60; // 倒计时
     formData: formData = {
         // 表单数据
@@ -108,7 +108,6 @@ export class RegisteredComponent implements OnInit {
             return;
         }
         this.submitFlag = true;
-
         this.http
             .post(
                 "/index/register",
@@ -118,6 +117,7 @@ export class RegisteredComponent implements OnInit {
                 this.submitFlag = false;
                 if (0 === res.code) {
                     this.message.success(res.msg);
+                    this.customerServiceFlag = true;
                 } else {
                     this.getKey();
                     this.message.error(res.msg);

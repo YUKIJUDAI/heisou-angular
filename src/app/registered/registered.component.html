@@ -3,7 +3,7 @@
         <p class="p1">技术革新 · 精准数据 <span><a [href]="serviceInfo.downloadUrl" target="_blank"> | 立即下载客户端</a></span><i></i></p>
         <p class="p2">本站采用非爬虫技术，在完全不干扰生意参谋行为的情况下，<br />简单高效的帮您转化并整理数据。避免风险的同时做到最大化方便使用。</p>
         <form class="slide2-registered-form" #myForm="ngForm" (ngSubmit)="onSubmit()">
-            <div ng-if="customerServiceFlag;else other_content" class="customerService">
+            <div *ngIf="customerServiceFlag;else other_content" class="customerService">
                 <p class="customerService_p1">恭喜您成功注册，添加客服了解更多</p>
                 <img [src]="serviceInfo.kefu_qr_code">
                 <p class="customerService_p2">扫描二维码领取新人专属会员大礼包</p>
