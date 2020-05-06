@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Store, select } from "@ngrx/store";
 
 @Component({
     selector: "app-introduction",
@@ -6,7 +7,12 @@ import { Component, OnInit } from "@angular/core";
     styleUrls: ["./introduction.component.less"],
 })
 export class IntroductionComponent implements OnInit {
-    constructor() {}
+    serviceInfo: { [propName: string]: any };
+    constructor(private store: Store<any>) {
+        store.pipe(select("serviceCode")).subscribe((res) => {
+            this.serviceInfo = res;
+        });
+    }
 
     ngOnInit() {}
 }

@@ -1,10 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Params, ActivatedRoute } from "@angular/router";
-import { environment } from "@env/environment";
+import { Store, select } from "@ngrx/store";
+
 import { ElMessageService } from "element-angular";
 import { interval } from "rxjs";
 import { take } from "rxjs/operators";
+
+import { environment } from "@env/environment";
 
 interface formData {
     phone: string | number; // 手机号
@@ -23,7 +26,7 @@ export class RegisteredComponent implements OnInit {
     queryParams: Params; // 参数
     key: number | string = ""; // 短信随机值
     baseUrl: string = environment.baseUrl;
-    downloadUrl: String; // 下载路径
+    serviceInfo: { [propName: string]: any };
     phoneCodeFlag: boolean = false; // 短信flag
     submitFlag: boolean = false; // 注册提交flag
     protocolFlag: boolean = true; // 协议勾选flag
@@ -40,8 +43,13 @@ export class RegisteredComponent implements OnInit {
     constructor(
         private http: HttpClient,
         private activatedRoute: ActivatedRoute,
-        private message: ElMessageService
-    ) {}
+        private message: ElMessageService,
+        private store: Store<any>
+    ) {
+        store.pipe(select("serviceCode")).subscribe((res) => {
+            this.serviceInfo = res;
+        });
+    }
 
     ngOnInit() {
         this.activatedRoute.queryParams.subscribe((params) => {
@@ -53,7 +61,6 @@ export class RegisteredComponent implements OnInit {
             localStorage.setItem("params", JSON.stringify(params));
         });
         this.getKey();
-        this.getAppVersion();
     }
 
     // 获取随机key
@@ -62,13 +69,6 @@ export class RegisteredComponent implements OnInit {
             new Date().getTime() +
             "" +
             (Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000);
-    }
-
-    // 获取下载链接
-    getAppVersion(): void {
-        this.http.post("/index/getAppVersion", null).subscribe((res: any) => {
-            0 === res.code && (this.downloadUrl = res.data);
-        });
     }
 
     // 获取短信

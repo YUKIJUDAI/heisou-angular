@@ -1,4 +1,10 @@
-import { Component, Input, OnInit, AfterViewInit, OnDestroy } from "@angular/core";
+import {
+    Component,
+    Input,
+    OnInit,
+    AfterViewInit,
+    OnDestroy,
+} from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Store, select } from "@ngrx/store";
@@ -6,14 +12,14 @@ import { DomSanitizer, SafeStyle } from "@angular/platform-browser";
 import { MnFullpageService, MnFullpageOptions } from "ngx-fullpage";
 import { NgwWowService } from "ngx-wow";
 
-import { resetServiceCode } from "@app/reducers/index";
+import { setServiceCode } from "@app/reducers/index";
+import { forkJoin } from "rxjs";
 
 @Component({
     templateUrl: "./home.component.html",
     styleUrls: ["./home.component.less"],
 })
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
-    downloadUrl: String; // 下载路径
     serviceInfo: { [propName: string]: any };
     bgImg: SafeStyle;
 
@@ -37,7 +43,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.getAppVersion();
         this.getServiceCode();
     }
 
@@ -45,7 +50,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         this.router.url !== "/" && this.fullpageService.moveTo(1, 1);
     }
 
-    ngOnDestroy():void {
+    ngOnDestroy(): void {
         this.fullpageService.destroy("all");
     }
 
@@ -68,18 +73,17 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         this.router.navigate(["/registered"]);
     }
 
-    // 获取下载链接
-    getAppVersion(): void {
-        this.http.post("/index/getAppVersion", null).subscribe((res: any) => {
-            0 === res.code && (this.downloadUrl = res.data);
-        });
-    }
-
     // 获取站点信息
     getServiceCode(): void {
-        this.http.post("/index/getServiceCode", null).subscribe((res: any) => {
-            if (0 === res.code) {
-                this.store.dispatch(resetServiceCode(res.data));
+        var a = this.http.post("/index/getAppVersion", null);
+        var b = this.http.post("/index/getServiceCode", null);
+        forkJoin(a, b).subscribe((res: any) => {
+            if (res.every((item) => item.code === 0)) {
+                this.store.dispatch(
+                    setServiceCode(
+                        Object.assign(res[1].data, { downloadUrl: res[0].data })
+                    )
+                );
                 this.bgImg = this.sanitizer.bypassSecurityTrustStyle(
                     `url(${this.serviceInfo.home_bg_image}) no-repeat 0 0`
                 );

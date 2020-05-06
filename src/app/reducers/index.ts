@@ -1,22 +1,16 @@
-import {
-    ActionReducerMap,
-    createAction,
-    props,
-    createReducer,
-    on,
-} from "@ngrx/store";
+import { createAction, props, createReducer, on } from "@ngrx/store";
 
 interface AppState {
     [propName: string]: any;
 }
 
-export const resetServiceCode = createAction("resetServiceCode", props<{}>());
+export const setServiceCode = createAction("setServiceCode", props<{}>());
 
 const reducer = createReducer(
     {},
-    on(resetServiceCode, (state, action) => action)
+    on(setServiceCode, (state: AppState, action: {}) => action)
 );
 
-export const reducers: ActionReducerMap<AppState> = {
-    serviceCode: reducer,
-};
+export function reducers(state, action) {
+    return reducer(state, action);
+}

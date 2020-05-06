@@ -37,7 +37,7 @@ import { reducers } from "./reducers";
         MnFullpageModule.forRoot(),
         ElModule.forRoot(),
         AppRoutingModule,
-        StoreModule.forRoot(reducers),
+        StoreModule.forRoot({ serviceCode: reducers }),
     ],
     providers: [{ provide: HTTP_INTERCEPTORS, useClass: Http, multi: true }],
     bootstrap: [MainComponent],
