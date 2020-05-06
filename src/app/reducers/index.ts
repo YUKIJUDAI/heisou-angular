@@ -1,7 +1,5 @@
 import {
     ActionReducerMap,
-    createFeatureSelector,
-    createSelector,
     createAction,
     props,
     createReducer,
@@ -9,26 +7,14 @@ import {
 } from "@ngrx/store";
 
 interface AppState {
-    serviceCode: { [propName: string]: any };
+    [propName: string]: any;
 }
 
-const resetServiceCode = createAction(
-    "resetServiceCode",
-    props<{ serviceCode }>()
-);
+export const resetServiceCode = createAction("resetServiceCode", props<{}>());
 
 const reducer = createReducer(
-    { serviceCode: {} },
-    on(resetServiceCode, (state, action) => ({
-        serviceCode: action.serviceCode,
-    }))
-);
-
-const getServiceCodeState = createFeatureSelector("serviceCodeState");
-
-export const getServiceCode = createSelector(
-    getServiceCodeState,
-    (state: any) => state.serviceCode
+    {},
+    on(resetServiceCode, (state, action) => action)
 );
 
 export const reducers: ActionReducerMap<AppState> = {

@@ -1,19 +1,21 @@
-import { Component, Input, OnInit, AfterViewInit } from "@angular/core";
+import { Component, Input, OnInit, AfterViewInit, OnDestroy } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
-import { Store } from "@ngrx/store";
+import { Store, select } from "@ngrx/store";
+import { DomSanitizer, SafeStyle } from "@angular/platform-browser";
 import { MnFullpageService, MnFullpageOptions } from "ngx-fullpage";
 import { NgwWowService } from "ngx-wow";
 
-import { getServiceCode } from "@app/reducers/index";
+import { resetServiceCode } from "@app/reducers/index";
 
 @Component({
     templateUrl: "./home.component.html",
     styleUrls: ["./home.component.less"],
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     downloadUrl: String; // 下载路径
-    serviceInfo: any;
+    serviceInfo: { [propName: string]: any };
+    bgImg: SafeStyle;
 
     @Input() public options: MnFullpageOptions = MnFullpageOptions.create({
         controlArrows: false,
@@ -25,10 +27,13 @@ export class AppComponent implements OnInit, AfterViewInit {
         private router: Router,
         private fullpageService: MnFullpageService,
         private wowService: NgwWowService,
-        private store: Store<any>
+        private store: Store<any>,
+        private sanitizer: DomSanitizer
     ) {
         this.wowService.init();
-        this.serviceInfo = store.select(getServiceCode);
+        store.pipe(select("serviceCode")).subscribe((res) => {
+            this.serviceInfo = res;
+        });
     }
 
     ngOnInit(): void {
@@ -38,6 +43,10 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit(): void {
         this.router.url !== "/" && this.fullpageService.moveTo(1, 1);
+    }
+
+    ngOnDestroy():void {
+        this.fullpageService.destroy("all");
     }
 
     // 跳转到首页
@@ -68,8 +77,13 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     // 获取站点信息
     getServiceCode(): void {
-        this.http.post("/index/getAppVersion", null).subscribe((res: any) => {
-            0 === res.code && this.store.dispatch({"resetServiceCode":res.data});
+        this.http.post("/index/getServiceCode", null).subscribe((res: any) => {
+            if (0 === res.code) {
+                this.store.dispatch(resetServiceCode(res.data));
+                this.bgImg = this.sanitizer.bypassSecurityTrustStyle(
+                    `url(${this.serviceInfo.home_bg_image}) no-repeat 0 0`
+                );
+            }
         });
     }
 }

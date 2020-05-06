@@ -1,9 +1,9 @@
 <div [mnFullpage]="options">
     <div class="section">
-        <div class="slide slide1">
+        <div class="slide slide1" [style.background]="bgImg">
             <div class="slide1-title">
-                <img src="../assets/img/logo-1.png" (click)="redirectToHome()" />
-                <span (click)="redirectToHome()">火星情报</span>
+                <img [src]="serviceInfo.logo_white" (click)="redirectToHome()" />
+                <span (click)="redirectToHome()">{{serviceInfo.name}}</span>
                 <ul>
                     <li (click)="redirectToHome()">官网首页</li>
                     <li (click)="redirectToIntroduction()">功能介绍</li>
@@ -12,10 +12,10 @@
             </div>
             <div class="slide1-main">
                 <div class="slide1-left wow bounceInLeft">
-                    <img src="../assets/img/computer.png">
+                    <img [src]="serviceInfo.home_info_image">
                 </div>
                 <div class="slide1-right wow bounceInRight">
-                    <p class="p1">火星情报</p>
+                    <p class="p1">{{serviceInfo.name}}</p>
                     <p class="p2">专业电商工具平台</p>
                     <p class="p3">
                         <span class="download"><a [href]="downloadUrl" target="_blank">立即下载</a></span>
@@ -26,8 +26,8 @@
         </div>
         <div class="slide slide2">
             <div class="slide2-title">
-                <img src="../assets/img/logo-2.png" (click)="redirectToHome()" />
-                <span (click)="redirectToHome()">火星情报</span>
+                <img [src]="serviceInfo.logo_black" (click)="redirectToHome()" />
+                <span (click)="redirectToHome()">{{serviceInfo.name}}</span>
                 <ul>
                     <li (click)="redirectToHome()">官网首页</li>
                     <li routerLink="/introduction" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">功能介绍</li>
@@ -39,6 +39,6 @@
                 <router-outlet></router-outlet>
             </div>
         </div>
-        <div class="copyright">Copyright © 2017杭州拉趣科技有限公司 浙ICP备17003883号-2 版权所有</div>
+        <div class="copyright">{{serviceInfo.copyright_info}}</div>
     </div>
 </div>

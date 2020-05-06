@@ -37,12 +37,7 @@ import { reducers } from "./reducers";
         MnFullpageModule.forRoot(),
         ElModule.forRoot(),
         AppRoutingModule,
-        StoreModule.forRoot(reducers, {
-            runtimeChecks: {
-                strictStateImmutability: true,
-                strictActionImmutability: true,
-            },
-        }),
+        StoreModule.forRoot(reducers),
     ],
     providers: [{ provide: HTTP_INTERCEPTORS, useClass: Http, multi: true }],
     bootstrap: [MainComponent],
