@@ -30,6 +30,7 @@ export class RegisteredComponent implements OnInit {
     phoneCodeFlag: boolean = false; // 短信flag
     submitFlag: boolean = false; // 注册提交flag
     protocolFlag: boolean = true; // 协议勾选flag
+    customerServiceFlag: boolean = true; // 新人礼包flag
     countdown: number = 60; // 倒计时
     formData: formData = {
         // 表单数据
