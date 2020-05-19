@@ -1,5 +1,5 @@
 export const environment = {
     production: true,
-    baseUrl: "http://bsearch.lethink.net",
-    proxyid: 1
+    baseUrl: "http://mars-api.huoxingqingbao.com",
+    proxyid: 0
 };
