@@ -4,7 +4,7 @@
 
 export const environment = {
     production: false,
-    baseUrl: "http://mars-api.huoxingqingbao.com",
+    baseUrl: "",
     proxyid: 0
 };
 
